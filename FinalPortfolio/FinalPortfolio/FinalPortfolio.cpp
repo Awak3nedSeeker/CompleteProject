@@ -1,8 +1,8 @@
 // FinalPortfolio.cpp : Defines the entry point for the application.
 //
 
-#include "stdafx.h"
-#include "FinalPortfolio.h"
+#include "Initialize.h"
+#include "Render.h"
 
 #define MAX_LOADSTRING 100
 
@@ -43,16 +43,35 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MSG msg;
 
     // Main message loop:
-    while (GetMessage(&msg, nullptr, 0, 0))
-    {
-        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-        {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
-    }
+	while (true) // Replaced: GetMessage(&msg, nullptr, 0, 0)
+	{
+		PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE);
 
-    return (int) msg.wParam;
+		if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+
+		if (msg.message == WM_QUIT)
+		{
+			break;
+		}
+
+		if (GetAsyncKeyState(VK_ESCAPE))
+		{
+			break;
+		}
+
+		Movement();
+		Draw();
+		DrawMesh();
+		MySwap->Present(0, 0);
+	}
+
+	Cleanup();
+
+	return (int)msg.wParam;
 }
 
 
@@ -107,6 +126,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
+
+   Setup(hWnd);
 
    return TRUE;
 }
