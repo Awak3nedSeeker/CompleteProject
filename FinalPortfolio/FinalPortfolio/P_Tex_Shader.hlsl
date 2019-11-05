@@ -34,20 +34,23 @@ cbuffer Shader_Vars : register(b0)
 Texture2D env : register(t0);
 SamplerState envFilter : register(s0);
 
-float4 main(OutputVertex inputP) : SV_TARGET
+float4 Directionallight(OutputVertex input)
 {
-    //float3 dir = float3(-1.0f, 0.5f, 0.0f);
-    //float4 ambient = float4(0.2f, 0.2f, 0.2f, 1.0f);
-    //float4 light_diffuse = float4(0.6f, 0.6f, 0.7f, 1.0f);
+    input.NRM = normalize(input.NRM);
 
-    inputP.NRM = normalize(inputP.NRM);
-
-    float4 diffuse = env.Sample(envFilter, inputP.UV);
+    float4 diffuse = env.Sample(envFilter, input.UV);
 
     float3 finalcolor;
 
     finalcolor = diffuse.xyz * light.ambient.xyz;
-    finalcolor += saturate(dot(light.dir, inputP.NRM) * light.diffuse * diffuse);
+    finalcolor += saturate(dot(light.dir, input.NRM) * light.diffuse * diffuse);
 
     return float4(finalcolor, diffuse.a);
+}
+
+float4 main(OutputVertex inputP) : SV_TARGET
+{
+    float4 D = Directionallight(inputP);
+
+    return saturate(D);
 }

@@ -227,7 +227,7 @@ void Setup(HWND hWnd)
 	// Pyramid Buffers
 	SubData.pSysMem = Tri;
 	MyDev->CreateBuffer(&BDesc, &SubData, &VBuffer);
-	MyDev->CreateBuffer(&BDesc, nullptr, &CBuffer);
+	//MyDev->CreateBuffer(&BDesc, nullptr, &CBuffer);
 
 	// Skybox Buffers
 	SubData.pSysMem = SkyVerts_3D;
