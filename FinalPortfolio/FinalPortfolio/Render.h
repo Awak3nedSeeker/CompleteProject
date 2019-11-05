@@ -37,10 +37,6 @@ void Draw()
 	Temp = XMMatrixMultiply(Temp2, Temp);
 	XMStoreFloat4x4(&MyMatricies.WMatrix, Temp);
 
-	// Projection
-	Temp = XMMatrixPerspectiveFovLH(FOV, AspectRatio, 0.1f, 100000);
-	XMStoreFloat4x4(&MyMatricies.PMatrix, Temp);
-
 	// Upload those matrices to the video card
 	// Create and update constant buffer (move variables from C++ toi shaders
 	MyCon->Map(CBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &GPUBuffer);
@@ -314,6 +310,8 @@ void Movement()
 		XMMATRIX Temp = XMMatrixLookAtLH({ 0, 0, -32 }, { 0, 0, 0 }, { 0, 1, 0 });
 		XMStoreFloat4x4(&MyMatricies.VMatrix, Temp);
 		FOV = 3.14f / 2.0f;
+		FPlane = 100000.0f;
+		NPlane = 0.1f;
 	}
 
 	// Zoom
@@ -337,6 +335,46 @@ void Movement()
 			FOV = 2.25f;
 		}
 	}
+
+	// Adjust Near & Far Plane
+
+	if (GetAsyncKeyState('Z'))
+	{
+		NPlane += 1.0f;
+
+		if (NPlane >= FPlane)
+		{
+			NPlane = FPlane - 0.1f;
+		}
+	}
+
+	if (GetAsyncKeyState('X'))
+	{
+		NPlane -= 1.0f;
+
+		if (NPlane <= 0.2f)
+		{
+			NPlane = 0.11f;
+		}
+	}
+
+	if (GetAsyncKeyState('N'))
+	{
+		FPlane += 10.0f;
+	}
+
+	if (GetAsyncKeyState('M'))
+	{
+		FPlane -= 10.0f;
+
+		if (FPlane <= NPlane)
+		{
+			FPlane = NPlane + 0.1f;
+		}
+	}
+
+	XMMATRIX Temp = XMMatrixPerspectiveFovLH(FOV, AspectRatio, NPlane, FPlane);
+	XMStoreFloat4x4(&MyMatricies.PMatrix, Temp);
 }
 
 void Cleanup()

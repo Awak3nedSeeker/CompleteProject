@@ -130,6 +130,8 @@ ID3D11ShaderResourceView* StoneView;  // Stonehenge
 unsigned int NumVerts = 0;
 float AspectRatio = 1;
 float FOV = 3.14f / 2.0f;
+float FPlane = 100000.0f;
+float NPlane = 0.1f;
 
 vector<Vertex_3D> vertexlist;
 vector<UINT> indices;
