@@ -155,6 +155,46 @@ void DrawMesh()
 	MyCon->DrawIndexed(2532, 0, 0);
 
 	// Stonehenge--------------------------------------------------------------------------------------------------------------------//
+
+	if (Lend == false)
+	{
+		light.pos.x += 0.01f;
+	}
+
+	if (light.pos.x >= 10)
+	{
+		Lend = true;
+	}
+
+	if (Lend == true)
+	{
+		light.pos.x -= 0.01f;
+	}
+
+	if (light.pos.x <= -10)
+	{
+		Lend = false;
+	}
+
+	if (DLend == false)
+	{
+		light.dir.x += 0.01f;
+	}
+
+	if (light.dir.x >= 10)
+	{
+		DLend = true;
+	}
+
+	if (DLend == true)
+	{
+		light.dir.x -= 0.01f;
+	}
+
+	if (light.dir.x <= -10)
+	{
+		DLend = false;
+	}
 }
 
 void Movement()

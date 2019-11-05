@@ -67,7 +67,10 @@ void Setup(HWND hWnd)
 	// Light Info
 	light.dir = XMFLOAT3(0.25f, -0.5f, -1.0f);
 	light.ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
-	light.diffuse = XMFLOAT4(0.6f, 0.6f, 0.7f, 1.0f);
+	light.diffuse = XMFLOAT4(0.3f, 0.3f, 0.4f, 1.0f);
+	light.pos = XMFLOAT3(0.0f, 2.0f, -5.0f);
+	light.range = 100.0f;
+	light.att = XMFLOAT3(0.0f, 0.2f, 0.0f);
 	
 // Needed Variables------------------------------------------------------------------------------------------------------------------------------------//
 

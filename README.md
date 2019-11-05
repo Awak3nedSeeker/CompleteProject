@@ -13,6 +13,9 @@ Rotate Camera -- IJKL keys
 Move up   -- Spacebar
 Move Down -- Left Shift
 
+Near Plane --  Forward = Z /  Backward = X
+Far Plane -- Forward = M  / Backward = N
+
 Reset Camera -- R key
 
 

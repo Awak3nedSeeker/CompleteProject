@@ -59,6 +59,10 @@ struct Light
 	}
 	XMFLOAT3 dir;
 	float pad;
+	XMFLOAT3 pos;
+	float range;
+	XMFLOAT3 att;
+	float pad2;
 	XMFLOAT4 ambient;
 	XMFLOAT4 diffuse;
 };
@@ -127,6 +131,8 @@ ID3D11ShaderResourceView* StoneView;  // Stonehenge
 // Global Numbers and Objects ---------------------------------------------------------------------------------------------------------------------------------------
 
 // Numbers
+bool Lend = false;
+bool DLend = false;
 unsigned int NumVerts = 0;
 float AspectRatio = 1;
 float FOV = 3.14f / 2.0f;
