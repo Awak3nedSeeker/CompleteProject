@@ -56,26 +56,21 @@ float4 Pointlight(OutputVertex input)
 {
 
     input.NRM = normalize(input.NRM);
-
-    float4 diffuse = env.Sample(envFilter, input.UV);
-
-    
+    float4 diffuse = env.Sample(envFilter, input.UV);   
     float3 finalColor = float3(0.0f, 0.0f, 0.0f);
-   
     float4 Color = { 1.0f, 0.0f, 0.0f, 1.0f };
     
-    //Create the vector between light position and pixels position
     float3 lightToPixelVec = light.pos - input.Local;
-        
-    //Find the distance between the light pos and pixel pos
     float d = length(lightToPixelVec);
     
     //Create the ambient light
     float3 finalAmbient = diffuse * light.ambient;
 
-    //If pixel is too far, return pixel color with ambient light
+
     if (d > light.range)
+    {
         return float4(finalAmbient, diffuse.a);
+    }
         
     //Turn lightToPixelVec into a unit length vector describing
     //the pixels direction from the lights position
@@ -85,20 +80,13 @@ float4 Pointlight(OutputVertex input)
     //in which the light strikes the pixels surface
     float howMuchLight = dot(lightToPixelVec, input.NRM);
 
-    //If light is striking the front side of the pixel
     if (howMuchLight > 0.0f)
     {
-        //Add light to the finalColor of the pixel
         finalColor += howMuchLight * diffuse * Color;
-        
-        //Calculate Light's Falloff factor
         finalColor /= light.att[0] + (light.att[1] * d) + (light.att[2] * (d * d));
     }
         
-    //make sure the values are between 1 and 0, and add the ambient
     finalColor = saturate(finalColor + finalAmbient);
-    
-    //Return Final Color
     return float4(finalColor, diffuse.a);
 }
 
