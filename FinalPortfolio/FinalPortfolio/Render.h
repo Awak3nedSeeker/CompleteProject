@@ -176,25 +176,25 @@ void DrawMesh()
 		Lend = false;
 	}
 
-	if (DLend == false)
-	{
-		light.dir.x += 0.01f;
-	}
+	//if (DLend == false)
+	//{
+	//	light.dir.x += 0.01f;
+	//}
 
-	if (light.dir.x >= 10)
-	{
-		DLend = true;
-	}
+	//if (light.dir.x >= 10)
+	//{
+	//	DLend = true;
+	//}
 
-	if (DLend == true)
-	{
-		light.dir.x -= 0.01f;
-	}
+	//if (DLend == true)
+	//{
+	//	light.dir.x -= 0.01f;
+	//}
 
-	if (light.dir.x <= -10)
-	{
-		DLend = false;
-	}
+	//if (light.dir.x <= -10)
+	//{
+	//	DLend = false;
+	//}
 }
 
 void Movement()

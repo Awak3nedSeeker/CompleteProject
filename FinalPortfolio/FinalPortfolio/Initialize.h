@@ -69,9 +69,11 @@ void Setup(HWND hWnd)
 	light.ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
 	light.diffuse = XMFLOAT4(0.3f, 0.3f, 0.4f, 1.0f);
 	light.pos = XMFLOAT3(0.0f, 2.0f, -5.0f);
-	light.range = 100.0f;
+	light.range = 500.0f;
+	light.cone = 20.0f;
 	light.att = XMFLOAT3(0.0f, 0.2f, 0.0f);
-	
+	//light.ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
+
 // Needed Variables------------------------------------------------------------------------------------------------------------------------------------//
 
 // Create Descriptors-----------------------------------------------------------------------------------------------------------------------------------//
