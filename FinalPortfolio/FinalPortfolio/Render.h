@@ -156,6 +156,8 @@ void DrawMesh()
 
 	// Stonehenge--------------------------------------------------------------------------------------------------------------------//
 
+	// Point Light Movement
+
 	if (Lend == false)
 	{
 		light.pos.x += 0.01f;
@@ -176,25 +178,74 @@ void DrawMesh()
 		Lend = false;
 	}
 
-	//if (DLend == false)
-	//{
-	//	light.dir.x += 0.01f;
-	//}
+	// Directional light Movement
 
-	//if (light.dir.x >= 10)
-	//{
-	//	DLend = true;
-	//}
+	if (DLend == false)
+	{
+		light.dir.x += 0.01f;
+	}
 
-	//if (DLend == true)
-	//{
-	//	light.dir.x -= 0.01f;
-	//}
+	if (light.dir.x >= 10)
+	{
+		DLend = true;
+	}
 
-	//if (light.dir.x <= -10)
-	//{
-	//	DLend = false;
-	//}
+	if (DLend == true)
+	{
+		light.dir.x -= 0.01f;
+	}
+
+	if (light.dir.x <= -10)
+	{
+		DLend = false;
+	}
+
+	// Spotlight Movement
+
+	if (SLPend == false)
+	{
+		light.Spos.x += 0.01f;
+	}
+
+	if (light.Spos.x >= 15) 
+	{
+		SLPend = true;
+	}
+
+	if (SLPend == true)
+	{
+		light.Spos.x -= 0.01f;
+	}
+
+	if (light.Spos.x <= -15)
+	{
+		SLPend = false;
+	}
+
+	// Spot light Direction
+
+	if (SLDend == false)
+	{
+		//light.Sdir.y += 0.001f;
+		light.Sdir.z += 0.003f;
+	}
+
+	if (light.Sdir.z >= 1)
+	{
+		SLDend = true;
+	}
+
+	if (SLDend == true)
+	{
+		//light.Sdir.y -= 0.001f;
+		light.Sdir.z -= 0.003f;
+	}
+	
+
+	if (light.Sdir.z <= -1)
+	{
+		SLDend = false;
+	}
 }
 
 void Movement()

@@ -58,11 +58,15 @@ struct Light
 		ZeroMemory(this, sizeof(Light));
 	}
 	XMFLOAT3 pos;
+	float pad;
+	XMFLOAT3 Spos;
 	float range;
 	XMFLOAT3 dir;
+	float pad2;
+	XMFLOAT3 Sdir;
 	float cone;
 	XMFLOAT3 att;
-	float pad2;
+	float pad3;
 	XMFLOAT4 ambient;
 	XMFLOAT4 diffuse;
 };
@@ -133,6 +137,8 @@ ID3D11ShaderResourceView* StoneView;  // Stonehenge
 // Numbers
 bool Lend = false;
 bool DLend = false;
+bool SLDend = false;
+bool SLPend = false;
 unsigned int NumVerts = 0;
 float AspectRatio = 1;
 float FOV = 3.14f / 2.0f;

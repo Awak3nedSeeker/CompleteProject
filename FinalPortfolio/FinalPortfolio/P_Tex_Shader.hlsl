@@ -16,8 +16,10 @@ struct OutputVertex
 struct Light
 {
     float3 pos;
+    float3 Spos;
     float range;
     float3 dir;
+    float3 Sdir;
     float cone;
     float3 att;
     float4 ambient;
@@ -107,8 +109,9 @@ float4 Pointlight(OutputVertex input)
 
 float4 Spotlight(OutputVertex input)
 {
-    float3 NPos = { 0, 2, -15 };
-    float3 dir = { 0, -1, 0.75 };
+    //float3 NPos = { 0, 2, -15 };
+    //float3 dir = { 0, -1, 0.75 };
+    float4 Color = { 1.0f, 0.0f, 0.0f, 1.0f };
 
     input.NRM = normalize(input.NRM);
 
@@ -117,7 +120,7 @@ float4 Spotlight(OutputVertex input)
     float3 finalColor = float3(0.0f, 0.0f, 0.0f);
     
     //Create the vector between light position and pixels position
-    float3 lightToPixelVec = NPos - input.Local;
+    float3 lightToPixelVec = light.Spos - input.Local;
         
     //Find the distance between the light pos and pixel pos
     float d = length(lightToPixelVec);
@@ -137,11 +140,11 @@ float4 Spotlight(OutputVertex input)
     //If light is striking the front side of the pixel
     if (howMuchLight > 0.0f)
     {
-        finalColor += diffuse * light.diffuse;             
+        finalColor += diffuse * Color;             
         finalColor /= (light.att[0] + (light.att[1] * d)) + (light.att[2] * (d * d));
 
         //Calculate falloff from center to edge of pointlight cone
-        finalColor *= pow(max(dot(-lightToPixelVec, dir), 0.0f), light.cone);
+        finalColor *= pow(max(dot(-lightToPixelVec, light.Sdir), 0.0f), light.cone);
     }
     
     finalColor = saturate(finalColor + finalAmbient);
@@ -154,5 +157,5 @@ float4 main(OutputVertex inputP) : SV_TARGET
     float4 P = Pointlight(inputP);
     float4 S = Spotlight(inputP);
 
-    return saturate(D + P + S);
+    return saturate(S);
 }
