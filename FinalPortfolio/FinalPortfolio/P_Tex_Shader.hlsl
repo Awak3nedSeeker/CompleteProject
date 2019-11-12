@@ -111,7 +111,7 @@ float4 Spotlight(OutputVertex input)
 {
     //float3 NPos = { 0, 2, -15 };
     //float3 dir = { 0, -1, 0.75 };
-    float4 Color = { 1.0f, 0.0f, 0.0f, 1.0f };
+    float4 Color = { 0.0f, 1.0f, 0.0f, 1.0f };
 
     input.NRM = normalize(input.NRM);
 
@@ -157,5 +157,5 @@ float4 main(OutputVertex inputP) : SV_TARGET
     float4 P = Pointlight(inputP);
     float4 S = Spotlight(inputP);
 
-    return saturate(S);
+    return saturate(D + P + S);
 }

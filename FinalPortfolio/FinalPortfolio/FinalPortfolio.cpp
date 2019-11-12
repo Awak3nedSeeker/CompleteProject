@@ -53,10 +53,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			DispatchMessage(&msg);
 		}
 
-		if (msg.message == WM_QUIT)
-		{
-			break;
-		}
+		//if (msg.message == WM_QUIT)
+		//{
+		//	break;
+		//}
 
 		if (GetAsyncKeyState(VK_ESCAPE))
 		{
