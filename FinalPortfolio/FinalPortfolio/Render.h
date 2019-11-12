@@ -350,9 +350,15 @@ void Movement()
 		XMVECTOR Invert = XMMatrixDeterminant(Temp);
 		Temp = XMMatrixInverse(&Invert, Temp);
 
+
+		XMVECTOR Pos = Temp.r[3];
+		Temp.r[3] = XMVectorSet( 0, 0, 0, 1 );
+
 		XMMATRIX Temp2 = XMMatrixIdentity();
 		Temp2 = XMMatrixRotationY(-0.001f);
-		Temp = XMMatrixMultiply(Temp2, Temp);
+		Temp = XMMatrixMultiply(Temp, Temp2);
+
+		Temp.r[3] = Pos;
 
 		Invert = XMMatrixDeterminant(Temp);
 		Temp = XMMatrixInverse(&Invert, Temp);
@@ -365,9 +371,14 @@ void Movement()
 		XMVECTOR Invert = XMMatrixDeterminant(Temp);
 		Temp = XMMatrixInverse(&Invert, Temp);
 
+		XMVECTOR Pos = Temp.r[3];
+		Temp.r[3] = XMVectorSet(0, 0, 0, 1);
+
 		XMMATRIX Temp2 = XMMatrixIdentity();
 		Temp2 = XMMatrixRotationY(0.001f);
-		Temp = XMMatrixMultiply(Temp2, Temp);
+		Temp = XMMatrixMultiply(Temp, Temp2);
+
+		Temp.r[3] = Pos;
 
 		Invert = XMMatrixDeterminant(Temp);
 		Temp = XMMatrixInverse(&Invert, Temp);
