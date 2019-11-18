@@ -99,8 +99,8 @@ ID3D11Buffer* VBuffer;           // Pyramid Vertex Buffer
 ID3D11Buffer* CBuffer;           // Constant Buffer (MVP)
 ID3D11Buffer* SkyVBuffer;        // Skybox Vertex Buffer
 ID3D11Buffer* SkyIBuffer;        // Skybox Index Buffer
-ID3D11Buffer* DeerVBuffer;       // Deer Vertex Buffer
-ID3D11Buffer* DeerIBuffer;       // Deer Index Buffer
+ID3D11Buffer* Planet01VBuffer;   // Planet 01 Vertex Buffer
+ID3D11Buffer* Planet01IBuffer;   // Planet 01 Index Buffer
 ID3D11Buffer* StoneVBuffer;      // Stonehenge Vertex Buffer
 ID3D11Buffer* StoneIBuffer;      // Stonehenge Index Buffer
 ID3D11Buffer* cbPerFrameBuffer;  // Per Frame Buffer
@@ -131,6 +131,8 @@ ID3D11Texture2D* SkyTexture;        // Skybox
 ID3D11ShaderResourceView* SkyView;  // Skybox
 ID3D11Texture2D* StoneTexture;        // Stonehenge
 ID3D11ShaderResourceView* StoneView;  // Stonehenge
+ID3D11Texture2D* Planet01Texture;        // Planet 01
+ID3D11ShaderResourceView* Planet01View;  // Planet 01
 
 // Global Numbers and Objects ---------------------------------------------------------------------------------------------------------------------------------------
 
@@ -139,6 +141,8 @@ bool Lend = false;
 bool DLend = false;
 bool SLDend = false;
 bool SLPend = false;
+bool OnScreen1 = true;
+bool OnScreen2 = false;
 unsigned int NumVerts = 0;
 float AspectRatio = 1;
 float FOV = 3.14f / 2.0f;
@@ -150,15 +154,14 @@ vector<UINT> indices;
 
 Vertex_3D* SkyVerts_3D;
 unsigned int* SkyIndices;
-
 unsigned int SkyVerts;
 unsigned int SkyIndice;
 
-Vertex_3D* DeerVerts_3D;
-unsigned int* DeerIndices;
 
-unsigned int DeerVerts;
-unsigned int DeerIndice;
+Vertex_3D* Planet01_3D;
+unsigned int* Planet01Indices;
+unsigned int Planet01Verts;
+unsigned int Planet01Indice;
 
 unsigned int numVerts;
 unsigned int numIndices;
@@ -166,3 +169,14 @@ unsigned int numIndices;
 // Objects
 Light light;
 cbPerFrame constbuffPerFrame;
+
+
+
+
+//Vertex_3D* DeerVerts_3D;
+//unsigned int* DeerIndices;
+//
+//unsigned int DeerVerts;
+//unsigned int DeerIndice;
+//ID3D11Buffer* DeerVBuffer;       // Deer Vertex Buffer
+//ID3D11Buffer* DeerIBuffer;       // Deer Index Buffer

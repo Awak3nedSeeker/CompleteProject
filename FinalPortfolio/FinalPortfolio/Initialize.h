@@ -58,18 +58,18 @@ void Setup(HWND hWnd)
 	SkyVerts_3D = Skybox.Vert;
 
 	// Deer Loader
-	Mesh Deer = ModelLoader("Assets/deer.obj", 0.01f, vertexlist, indices);
-	DeerVerts_3D = Deer.Vert;
-	DeerIndices = Deer.indi;
-	DeerVerts = numVerts;
-	DeerIndice = numIndices;
+	Mesh Planet01 = ModelLoader("Assets/Planet06.obj", 0.25f, vertexlist, indices);
+	Planet01_3D = Planet01.Vert;
+	Planet01Indices = Planet01.indi;
+	Planet01Verts = numVerts;
+	Planet01Indice = numIndices;
 
 	// Light Info
 	light.dir = XMFLOAT3(0.25f, -0.5f, -1.0f);
 	light.ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
 	light.diffuse = XMFLOAT4(0.3f, 0.3f, 0.4f, 1.0f);
-	light.pos = XMFLOAT3(0.0f, 2.0f, -5.0f);
-	light.range = 100.0f;
+	light.pos = XMFLOAT3(-2.0f, 2.0f, -5.0f);
+	light.range = 1000.0f;
 	light.cone = 5.0f;
 	light.att = XMFLOAT3(0.0f, 0.2f, 0.0f);
 	light.Spos = XMFLOAT3(0, 5, -20);
@@ -184,7 +184,7 @@ void Setup(HWND hWnd)
 
 	// Setup Deer Vertex Buffer
 	DeerVReader.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	DeerVReader.ByteWidth = sizeof(Vertex_3D) * DeerVerts;
+	DeerVReader.ByteWidth = sizeof(Vertex_3D) * Planet01Verts;
 	DeerVReader.CPUAccessFlags = 0;
 	DeerVReader.MiscFlags = 0;
 	DeerVReader.StructureByteStride = 0;
@@ -195,7 +195,7 @@ void Setup(HWND hWnd)
 	ZeroMemory(&DeerIReader, sizeof(D3D11_BUFFER_DESC));
 
 	DeerIReader.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	DeerIReader.ByteWidth = sizeof(UINT) * DeerIndice;
+	DeerIReader.ByteWidth = sizeof(UINT) * Planet01Indice;
 	DeerIReader.CPUAccessFlags = 0;
 	DeerIReader.MiscFlags = 0;
 	DeerIReader.StructureByteStride = 0;
@@ -244,11 +244,11 @@ void Setup(HWND hWnd)
 	hr = MyDev->CreateBuffer(&OBJIReader, &SubData, &SkyIBuffer);
 
 	// Deer Buffers
-	SubData.pSysMem = DeerVerts_3D;
-	MyDev->CreateBuffer(&DeerVReader, &SubData, &DeerVBuffer);
+	SubData.pSysMem = Planet01_3D;
+	MyDev->CreateBuffer(&DeerVReader, &SubData, &Planet01VBuffer);
 
-	SubData.pSysMem = DeerIndices;
-	MyDev->CreateBuffer(&DeerIReader, &SubData, &DeerIBuffer);
+	SubData.pSysMem = Planet01Indices;
+	MyDev->CreateBuffer(&DeerIReader, &SubData, &Planet01IBuffer);
 
 	// Stonehenge Buffers
 	SubData.pSysMem = StoneHenge_data;
@@ -297,16 +297,16 @@ void Setup(HWND hWnd)
 // Set MVP Matrices-------------------------------------------------------------------------------------------------------------------------------------//
 
 	// Set MVP
-	static float rota = 0;
-	rota += 0.001f;
-	XMMATRIX Temp = XMMatrixIdentity();
-	Temp = XMMatrixTranslation(0, 0, 0);
-	XMMATRIX Temp2 = XMMatrixRotationY(rota);
-	Temp = XMMatrixMultiply(Temp2, Temp);
-	XMStoreFloat4x4(&MyMatricies.WMatrix, Temp);
+	//static float rota = 0;
+	//rota += 0.001f;
+	//XMMATRIX Temp = XMMatrixIdentity();
+	//Temp = XMMatrixTranslation(0, 0, 0);
+	//XMMATRIX Temp2 = XMMatrixRotationY(rota);
+	//Temp = XMMatrixMultiply(Temp2, Temp);
+	//XMStoreFloat4x4(&MyMatricies.WMatrix, Temp);
 
 	// View
-	Temp = XMMatrixLookAtLH({ 0, 0, -32 }, { 0, 0, 0 }, { 0, 1, 0 });
+	XMMATRIX Temp = XMMatrixLookAtLH({ 0, 0, -32 }, { 0, 0, 0 }, { 0, 1, 0 });
 	XMStoreFloat4x4(&MyMatricies.VMatrix, Temp);
 
 	// Projection
@@ -318,8 +318,9 @@ void Setup(HWND hWnd)
 
 // Create Textures--------------------------------------------------------------------------------------------------------------------------------------//
 	
-	CreateDDSTextureFromFile(MyDev, L"Assets/SkyboxOcean.dds", (ID3D11Resource**)&SkyTexture, &SkyView);
+	CreateDDSTextureFromFile(MyDev, L"Assets/Space.dds", (ID3D11Resource**)&SkyTexture, &SkyView);
 	CreateDDSTextureFromFile(MyDev, L"Assets/StoneHenge.dds", (ID3D11Resource**)&StoneTexture, &StoneView);
+	CreateDDSTextureFromFile(MyDev, L"Assets/fire_planet.dds", (ID3D11Resource**)&Planet01Texture, &Planet01View);
 	
 // Create Textures--------------------------------------------------------------------------------------------------------------------------------------//
 
