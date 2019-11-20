@@ -31,7 +31,7 @@ cbuffer cbPerFrame : register(b)
     Light light;
 };
 
-cbuffer Shader_Vars : register(b0)
+cbuffer Shader_Vars : register(b1)
 {
     float4x4 WorldMatrix;
     float4x4 ViewMatrix;
@@ -43,7 +43,7 @@ SamplerState envFilter : register(s0);
 
 float4 Directionallight(OutputVertex input)
 {
-    input.NRM = normalize(input.NRM);
+    //input.NRM = normalize(input.NRM);
 
     float4 diffuse = env.Sample(envFilter, input.UV);
 
@@ -151,11 +151,25 @@ float4 Spotlight(OutputVertex input)
     return float4(finalColor, diffuse.a);
 }
 
+float4 Specular(OutputVertex input)
+{
+    float3 lighttopos = normalize(light.pos - input.Local);
+    float3 HALFVECTOR = normalize(reflect(-light.dir, normalize(input.NRM)));
+    float3 postoview = normalize(input.Local - ViewMatrix._41_42_43);
+    float constant = pow(max(dot(postoview, HALFVECTOR), 0), 10);
+
+   float3 final = float3(1.0f, 1.0f, 1.0f) * constant;
+ 
+
+    return float4(final, 1.0f);
+}
+
 float4 main(OutputVertex inputP) : SV_TARGET
 {
     float4 D = Directionallight(inputP);
     float4 P = Pointlight(inputP);
     float4 S = Spotlight(inputP);
+    float4 Specul = Specular(inputP);
 
-    return saturate(D + P);
+    return saturate(D);
 }

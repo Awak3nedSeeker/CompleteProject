@@ -10,6 +10,7 @@
 #include <vector>
 #include <iostream>
 #include <DirectXMath.h>
+#include <d3d9types.h>
 
 using namespace DirectX;
 using namespace std;
@@ -22,6 +23,9 @@ using namespace std;
 
 #include "VShader.csh"
 #include "PShader.csh"
+#include "BunShader.csh"
+#include "KnightShader.csh"
+#include "HolyShader.csh"
 #include "P_Tex_Shader.csh"
 #include "VMeshShader.csh"
 #include "VMeshShader_EXP.csh"
@@ -101,6 +105,22 @@ ID3D11Buffer* SkyVBuffer;        // Skybox Vertex Buffer
 ID3D11Buffer* SkyIBuffer;        // Skybox Index Buffer
 ID3D11Buffer* Planet01VBuffer;   // Planet 01 Vertex Buffer
 ID3D11Buffer* Planet01IBuffer;   // Planet 01 Index Buffer
+ID3D11Buffer* Planet02VBuffer;   // Planet 02 Vertex Buffer
+ID3D11Buffer* Planet02IBuffer;   // Planet 02 Index Buffer
+ID3D11Buffer* Planet03VBuffer;   // Planet 03 Vertex Buffer
+ID3D11Buffer* Planet03IBuffer;   // Planet 03 Index Buffer
+ID3D11Buffer* MoonVBuffer;   // Moon Vertex Buffer
+ID3D11Buffer* MoonIBuffer;   // Moon Index Buffer
+ID3D11Buffer* GroundVBuffer;     // Ground Vertex Buffer
+ID3D11Buffer* GroundIBuffer;     // Ground Index Buffer
+ID3D11Buffer* CaveVBuffer;       // Cave Vertex Buffer
+ID3D11Buffer* CaveIBuffer;       // Cave Index Buffer
+ID3D11Buffer* HolyVBuffer;       // Holy Vertex Buffer
+ID3D11Buffer* HolyIBuffer;       // Holy Index Buffer
+ID3D11Buffer* BunVBuffer;       // Bun Vertex Buffer
+ID3D11Buffer* BunIBuffer;       // Bun Index Buffer
+ID3D11Buffer* KnightVBuffer;       // knight Vertex Buffer
+ID3D11Buffer* KnightIBuffer;       // Knight Index Buffer
 ID3D11Buffer* StoneVBuffer;      // Stonehenge Vertex Buffer
 ID3D11Buffer* StoneIBuffer;      // Stonehenge Index Buffer
 ID3D11Buffer* cbPerFrameBuffer;  // Per Frame Buffer
@@ -114,6 +134,9 @@ ID3D11InputLayout* VMeshLayout;  // Mesh Layout
 ID3D11PixelShader* TexShader;       // Texture Shader
 ID3D11PixelShader* Sky_Shader;      // Skybox Shader
 ID3D11PixelShader* Pix_Shader;      // Normal Color Pixel Shader
+ID3D11PixelShader* Lit_Shader;      // Normal Color Pixel Shader
+ID3D11PixelShader* Bun_Shader;      // Normal Color Pixel Shader
+ID3D11PixelShader* Knight_Shader;      // Normal Color Pixel Shader
 ID3D11PixelShader* Deer_Shader;     // Deer Shader
 ID3D11VertexShader* Vert_Shader;    // Vertex Shader
 ID3D11VertexShader* VertexMShader;  // Vertex Mesh Shader
@@ -129,11 +152,18 @@ D3D11_MAPPED_SUBRESOURCE GPUBuffer;
 // Texture info
 ID3D11Texture2D* SkyTexture;        // Skybox
 ID3D11ShaderResourceView* SkyView;  // Skybox
+ID3D11Texture2D* Sky2Texture;        // Skybox
+ID3D11ShaderResourceView* Sky2View;  // Skybox
 ID3D11Texture2D* StoneTexture;        // Stonehenge
 ID3D11ShaderResourceView* StoneView;  // Stonehenge
 ID3D11Texture2D* Planet01Texture;        // Planet 01
 ID3D11ShaderResourceView* Planet01View;  // Planet 01
-
+ID3D11Texture2D* Planet02Texture;        // Planet 02
+ID3D11ShaderResourceView* Planet02View;  // Planet 02
+ID3D11Texture2D* Planet03Texture;        // Planet 03
+ID3D11ShaderResourceView* Planet03View;  // Planet 03
+ID3D11Texture2D* MoonTexture;        // Moon
+ID3D11ShaderResourceView* MoonView;  // Moon
 // Global Numbers and Objects ---------------------------------------------------------------------------------------------------------------------------------------
 
 // Numbers
@@ -149,6 +179,7 @@ float FOV = 3.14f / 2.0f;
 float FPlane = 100000.0f;
 float NPlane = 0.1f;
 
+XMMATRIX Orbit;
 vector<Vertex_3D> vertexlist;
 vector<UINT> indices;
 
@@ -157,11 +188,50 @@ unsigned int* SkyIndices;
 unsigned int SkyVerts;
 unsigned int SkyIndice;
 
-
 Vertex_3D* Planet01_3D;
 unsigned int* Planet01Indices;
 unsigned int Planet01Verts;
 unsigned int Planet01Indice;
+
+Vertex_3D* Planet02_3D;
+unsigned int* Planet02Indices;
+unsigned int Planet02Verts;
+unsigned int Planet02Indice;
+
+Vertex_3D* Planet03_3D;
+unsigned int* Planet03Indices;
+unsigned int Planet03Verts;
+unsigned int Planet03Indice;
+
+Vertex_3D* Ground_3D;
+unsigned int* GroundIndices;
+unsigned int GroundVerts;
+unsigned int GroundIndice;
+
+Vertex_3D* Cave_3D;
+unsigned int* CaveIndices;
+unsigned int CaveVerts;
+unsigned int CaveIndice;
+
+Vertex_3D* Moon_3D;
+unsigned int* MoonIndices;
+unsigned int MoonVerts;
+unsigned int MoonIndice;
+
+Vertex_3D* Holy_3D;
+unsigned int* HolyIndices;
+unsigned int HolyVerts;
+unsigned int HolyIndice;
+
+Vertex_3D* Bun_3D;
+unsigned int* BunIndices;
+unsigned int BunVerts;
+unsigned int BunIndice;
+
+Vertex_3D* Knight_3D;
+unsigned int* KnightIndices;
+unsigned int KnightVerts;
+unsigned int KnightIndice;
 
 unsigned int numVerts;
 unsigned int numIndices;
