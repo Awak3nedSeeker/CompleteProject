@@ -220,6 +220,36 @@ void DrawMesh()
 		MyCon->DrawIndexed(MoonIndice, 0, 0);
 
 		// Moon--------------------------------------------------------------------------------------------------------------------------//
+
+		// Ship--------------------------------------------------------------------------------------------------------------------//
+
+		// Set Pipeline
+		UINT Ship_strides[] = { sizeof(Vertex_3D) };
+		UINT Ship_offsets[] = { 0 };
+		ID3D11Buffer* ShipBuff[] = { ShipVBuffer };
+		MyCon->IASetVertexBuffers(0, 1, ShipBuff, Ship_strides, Ship_offsets);
+		MyCon->IASetIndexBuffer(ShipIBuffer, DXGI_FORMAT_R32_UINT, 0);
+		MyCon->VSSetShader(VertexMShader, 0, 0);
+		MyCon->IASetInputLayout(VMeshLayout);
+
+		// Modify World Matrix
+		Temp = XMMatrixIdentity();
+		Temp = XMMatrixTranslation(0, -10, -160);
+		XMStoreFloat4x4(&MyMatricies.WMatrix, Temp);
+
+		// Send it to the card
+		MyCon->Map(CBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &GPUBuffer);
+		*((WVP*)(GPUBuffer.pData)) = MyMatricies;
+		MyCon->Unmap(CBuffer, 0);
+
+		MyCon->PSSetShader(TexShader, 0, 0);
+
+		ID3D11ShaderResourceView* textViewS[] = { ShipView };
+		MyCon->PSSetShaderResources(0, 1, textViewS);
+
+		MyCon->DrawIndexed(ShipIndice, 0, 0);
+
+		// Ship--------------------------------------------------------------------------------------------------------------------//
 	}
 
 	if (OnScreen2 == true)
@@ -278,8 +308,6 @@ void DrawMesh()
 		// Send it to the card
 		MyCon->Map(CBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &GPUBuffer);
 		*((WVP*)(GPUBuffer.pData)) = MyMatricies;
-
-		// memcpy(GPUBuffer.pData, &WMatrix, sizeof(XMFLOAT4X4));
 		MyCon->Unmap(CBuffer, 0);
 
 		MyCon->PSSetShader(TexShader, 0, 0);
@@ -592,7 +620,7 @@ void Movement()
 
 	if (GetAsyncKeyState('R'))
 	{
-		XMMATRIX Temp = XMMatrixLookAtLH({ 0, 0, -32 }, { 0, 0, 0 }, { 0, 1, 0 });
+		XMMATRIX Temp = XMMatrixLookAtLH({ 0, 0, -200 }, { 0, 0, 0 }, { 0, 1, 0 });
 		XMStoreFloat4x4(&MyMatricies.VMatrix, Temp);
 		FOV = 3.14f / 2.0f;
 		FPlane = 100000.0f;
@@ -703,6 +731,8 @@ void Cleanup()
 	BunIBuffer->Release();
 	KnightVBuffer->Release();
 	KnightIBuffer->Release();
+	ShipVBuffer->Release();
+	ShipIBuffer->Release();
 	StoneVBuffer->Release();
 	StoneIBuffer->Release();
 
@@ -717,6 +747,7 @@ void Cleanup()
 	delete[] Holy_3D;
 	delete[] Bun_3D;
 	delete[] Knight_3D;
+	delete[] Ship_3D;
 	delete[] Planet01Indices;
 
 	// System
@@ -734,6 +765,8 @@ void Cleanup()
 	MoonTexture->Release();
 	StoneView->Release();
 	StoneTexture->Release();
+	ShipView->Release();
+	ShipTexture->Release();
 	MyCon->Release();
 	ZView->Release();
 	MySwap->Release();

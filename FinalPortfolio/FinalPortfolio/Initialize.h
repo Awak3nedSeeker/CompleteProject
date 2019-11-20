@@ -120,6 +120,13 @@ void Setup(HWND hWnd)
 	KnightVerts = numVerts;
 	KnightIndice = numIndices;
 
+	// Ship Loader
+	Mesh Ship = ModelLoader("Assets/Ship.obj", 7.0f, vertexlist, indices);
+	Ship_3D = Ship.Vert;
+	ShipIndices = Ship.indi;
+	ShipVerts = numVerts;
+	ShipIndice = numIndices;
+
 	// Light Info
 	light.dir = XMFLOAT3(1, -0.5f, 0);
 	light.ambient = XMFLOAT4(1, 1, 1, 1.0f);
@@ -464,6 +471,29 @@ void Setup(HWND hWnd)
 	KnightIReader.StructureByteStride = 0;
 	KnightIReader.Usage = D3D11_USAGE_IMMUTABLE;
 
+	// Mesh Vertex and Index Buffers
+	D3D11_BUFFER_DESC ShipVReader;
+	ZeroMemory(&ShipVReader, sizeof(D3D11_BUFFER_DESC));
+
+	// Setup Vertex Buffer
+	ShipVReader.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	ShipVReader.ByteWidth = sizeof(Vertex_3D) * ShipVerts;
+	ShipVReader.CPUAccessFlags = 0;
+	ShipVReader.MiscFlags = 0;
+	ShipVReader.StructureByteStride = 0;
+	ShipVReader.Usage = D3D11_USAGE_IMMUTABLE;
+
+	// Index Buffer
+	D3D11_BUFFER_DESC ShipIReader;
+	ZeroMemory(&ShipIReader, sizeof(D3D11_BUFFER_DESC));
+
+	ShipIReader.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	ShipIReader.ByteWidth = sizeof(UINT) * ShipIndice;
+	ShipIReader.CPUAccessFlags = 0;
+	ShipIReader.MiscFlags = 0;
+	ShipIReader.StructureByteStride = 0;
+	ShipIReader.Usage = D3D11_USAGE_IMMUTABLE;
+
 // Create Descriptors-----------------------------------------------------------------------------------------------------------------------------------//
 	
 // Create Buffers and Misc.-----------------------------------------------------------------------------------------------------------------------------//
@@ -552,6 +582,13 @@ void Setup(HWND hWnd)
 	SubData.pSysMem = KnightIndices;
 	MyDev->CreateBuffer(&KnightIReader, &SubData, &KnightIBuffer);
 
+	// Ship Buffers
+	SubData.pSysMem = Ship_3D;
+	MyDev->CreateBuffer(&ShipVReader, &SubData, &ShipVBuffer);
+
+	SubData.pSysMem = ShipIndices;
+	MyDev->CreateBuffer(&ShipIReader, &SubData, &ShipIBuffer);
+
 	// Back Buffer
 	ID3D11Resource* backbuffer;
 	MySwap->GetBuffer(0, __uuidof(backbuffer), (void**)&backbuffer);
@@ -623,6 +660,7 @@ void Setup(HWND hWnd)
 	CreateDDSTextureFromFile(MyDev, L"Assets/uhfplanet.dds", (ID3D11Resource**)&Planet02Texture, &Planet02View);
 	CreateDDSTextureFromFile(MyDev, L"Assets/bunplanet.dds", (ID3D11Resource**)&Planet03Texture, &Planet03View);
 	CreateDDSTextureFromFile(MyDev, L"Assets/moon_Diffuse.dds", (ID3D11Resource**)&MoonTexture, &MoonView);
+	CreateDDSTextureFromFile(MyDev, L"Assets/AlienAOE_D.dds", (ID3D11Resource**)&ShipTexture, &ShipView);
 
 // Create Textures--------------------------------------------------------------------------------------------------------------------------------------//
 

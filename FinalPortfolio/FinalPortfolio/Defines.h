@@ -121,6 +121,8 @@ ID3D11Buffer* BunVBuffer;       // Bun Vertex Buffer
 ID3D11Buffer* BunIBuffer;       // Bun Index Buffer
 ID3D11Buffer* KnightVBuffer;       // knight Vertex Buffer
 ID3D11Buffer* KnightIBuffer;       // Knight Index Buffer
+ID3D11Buffer* ShipVBuffer;       // Ship Vertex Buffer
+ID3D11Buffer* ShipIBuffer;       // Ship Index Buffer
 ID3D11Buffer* StoneVBuffer;      // Stonehenge Vertex Buffer
 ID3D11Buffer* StoneIBuffer;      // Stonehenge Index Buffer
 ID3D11Buffer* cbPerFrameBuffer;  // Per Frame Buffer
@@ -164,6 +166,8 @@ ID3D11Texture2D* Planet03Texture;        // Planet 03
 ID3D11ShaderResourceView* Planet03View;  // Planet 03
 ID3D11Texture2D* MoonTexture;        // Moon
 ID3D11ShaderResourceView* MoonView;  // Moon
+ID3D11Texture2D* ShipTexture;        // Moon
+ID3D11ShaderResourceView* ShipView;  // Moon
 // Global Numbers and Objects ---------------------------------------------------------------------------------------------------------------------------------------
 
 // Numbers
@@ -232,6 +236,11 @@ Vertex_3D* Knight_3D;
 unsigned int* KnightIndices;
 unsigned int KnightVerts;
 unsigned int KnightIndice;
+
+Vertex_3D* Ship_3D;
+unsigned int* ShipIndices;
+unsigned int ShipVerts;
+unsigned int ShipIndice;
 
 unsigned int numVerts;
 unsigned int numIndices;
